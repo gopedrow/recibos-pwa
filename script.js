@@ -231,13 +231,22 @@ let clientesData = [];
 
 // Função para mostrar legenda do dia de pagamento
 function mostrarLegendaDiaPagamento(clienteNome) {
+  console.log("=== DEBUG: Função mostrarLegendaDiaPagamento chamada ===");
+  console.log("Cliente selecionado:", clienteNome);
+  console.log("Dados dos clientes:", clientesData);
+  
   const legendaDiv = document.getElementById('legendaDiaPagamento');
+  console.log("Elemento legenda encontrado:", legendaDiv);
+  
   const cliente = clientesData.find(c => c.nome === clienteNome);
+  console.log("Cliente encontrado:", cliente);
   
   if (cliente && cliente.diaPagamento) {
+    console.log("Mostrando legenda para dia:", cliente.diaPagamento);
     legendaDiv.textContent = `Esse aluno realiza o pagamento no dia ${cliente.diaPagamento}`;
     legendaDiv.style.display = 'block';
   } else {
+    console.log("Ocultando legenda - cliente não encontrado ou sem dia de pagamento");
     legendaDiv.style.display = 'none';
   }
 }
@@ -261,20 +270,31 @@ function carregarClientesParaSelect() {
   fetch('https://script.google.com/macros/s/AKfycbz9GmQUeSkbUNjNLUVyDQpPZMDFD7T5IDMiFxN5PpV-fhR59SlWI9aUtpp7oXyd5ykY/exec?tipo=cliente')
     .then(res => res.json())
     .then(clientes => {
+      console.log("=== DEBUG: Clientes carregados ===");
+      console.log("Clientes recebidos:", clientes);
+      
       // Armazenar dados dos clientes
       clientesData = clientes;
       
       clienteSelect.innerHTML = '<option value="">Selecione um cliente</option>' +
         clientes.map(c => `<option value="${c.nome}">${c.nome} - ${c.email || ''}</option>`).join('');
+      
+      console.log("Select de clientes atualizado");
+    })
+    .catch(error => {
+      console.error("Erro ao carregar clientes:", error);
     });
 }
 
 // Inicializar quando o DOM estiver carregado
 document.addEventListener('DOMContentLoaded', function() {
+  console.log("=== DEBUG: DOM carregado ===");
   carregarClientesParaSelect();
   
   // Adicionar event listener para o select de clientes
   clienteSelect.addEventListener('change', function() {
+    console.log("=== DEBUG: Select de cliente alterado ===");
+    console.log("Valor selecionado:", this.value);
     mostrarLegendaDiaPagamento(this.value);
   });
 });
