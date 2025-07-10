@@ -2,31 +2,26 @@
   "name": "Sistema de Recibos",
   "short_name": "Recibos",
   "description": "Sistema para geração e gestão de recibos de pagamento",
-  "start_url": "/",
+  "start_url": "/recibos-pwa/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#f5f5f5",
   "theme_color": "#444",
-  "scope": "/",
+  "scope": "/recibos-pwa/",
   "lang": "pt-BR",
   "dir": "ltr",
   "categories": ["business", "productivity"],
   "icons": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64",
-      "type": "image/x-icon"
-    },
-    {
-      "src": "favicon.ico",
+      "src": "favicon.png",
       "sizes": "192x192",
-      "type": "image/x-icon",
+      "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "favicon.ico",
+      "src": "favicon.png",
       "sizes": "512x512",
-      "type": "image/x-icon",
+      "type": "image/png",
       "purpose": "any maskable"
     }
   ]
