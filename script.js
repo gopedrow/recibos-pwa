@@ -5,12 +5,26 @@ document.getElementById("reciboForm").addEventListener("submit", function(e) {
   const descricao = document.getElementById("descricao").value;
   const valor = parseFloat(document.getElementById("valor").value).toFixed(2);
   const data = document.getElementById("data").value;
+  
+  // Novos campos opcionais
+  const nomePagador = document.getElementById("nomePagador").value || '';
+  const cpfCnpjPagador = document.getElementById("cpfCnpjPagador").value || '';
+  const nomeRecebedor = document.getElementById("nomeRecebedor").value || '';
+  const cpfCnpjRecebedor = document.getElementById("cpfCnpjRecebedor").value || '';
+  const formaPagamento = document.getElementById("formaPagamento").value || '';
+  const numeroRecibo = document.getElementById("numeroRecibo").value || '';
 
   console.log("=== DEBUG: Dados do formulário ===");
   console.log("Nome:", nome);
   console.log("Descrição:", descricao);
   console.log("Valor:", valor);
   console.log("Data:", data);
+  console.log("Nome Pagador:", nomePagador);
+  console.log("CPF/CNPJ Pagador:", cpfCnpjPagador);
+  console.log("Nome Recebedor:", nomeRecebedor);
+  console.log("CPF/CNPJ Recebedor:", cpfCnpjRecebedor);
+  console.log("Forma Pagamento:", formaPagamento);
+  console.log("Número Recibo:", numeroRecibo);
 
   // Validação básica
   if (!nome) {
@@ -19,14 +33,14 @@ document.getElementById("reciboForm").addEventListener("submit", function(e) {
   }
 
   // Testar com URL simples primeiro
-  testarSalvamento(nome, descricao, valor, data);
+  testarSalvamento(nome, descricao, valor, data, nomePagador, cpfCnpjPagador, nomeRecebedor, cpfCnpjRecebedor, formaPagamento, numeroRecibo);
 });
 
-function testarSalvamento(nome, descricao, valor, data) {
+function testarSalvamento(nome, descricao, valor, data, nomePagador, cpfCnpjPagador, nomeRecebedor, cpfCnpjRecebedor, formaPagamento, numeroRecibo) {
   console.log("=== DEBUG: Testando salvamento ===");
   
   // Método 1: Tentar com URL simples
-  const url = `https://script.google.com/macros/s/AKfycbxXdWDONd_EA6LSl3KNb0u6g7pI5vOsGUidmEzIwkHBX3WJbDLkYBqslqtNSbKsKNY/exec?tipo=recibo&nome=${encodeURIComponent(nome)}&descricao=${encodeURIComponent(descricao)}&valor=${encodeURIComponent(valor)}&data=${encodeURIComponent(data)}`;
+  const url = `https://script.google.com/macros/s/AKfycbxXdWDONd_EA6LSl3KNb0u6g7pI5vOsGUidmEzIwkHBX3WJbDLkYBqslqtNSbKsKNY/exec?tipo=recibo&nome=${encodeURIComponent(nome)}&descricao=${encodeURIComponent(descricao)}&valor=${encodeURIComponent(valor)}&data=${encodeURIComponent(data)}&nomePagador=${encodeURIComponent(nomePagador)}&cpfCnpjPagador=${encodeURIComponent(cpfCnpjPagador)}&nomeRecebedor=${encodeURIComponent(nomeRecebedor)}&cpfCnpjRecebedor=${encodeURIComponent(cpfCnpjRecebedor)}&formaPagamento=${encodeURIComponent(formaPagamento)}&numeroRecibo=${encodeURIComponent(numeroRecibo)}`;
   
   console.log("URL de teste:", url);
 
@@ -45,7 +59,7 @@ function testarSalvamento(nome, descricao, valor, data) {
     
     // Se chegou até aqui, consideramos sucesso
     alert("Recibo registrado com sucesso na base de dados!");
-    gerarRecibo(nome, descricao, valor, data);
+    gerarRecibo(nome, descricao, valor, data, nomePagador, cpfCnpjPagador, nomeRecebedor, cpfCnpjRecebedor, formaPagamento, numeroRecibo);
   })
   .catch(err => {
     console.error("=== DEBUG: Erro no teste ===");
@@ -53,11 +67,11 @@ function testarSalvamento(nome, descricao, valor, data) {
     
     // Se falhar, tentar método alternativo
     console.log("Tentando método alternativo...");
-    tentarMetodoAlternativo(nome, descricao, valor, data);
+    tentarMetodoAlternativo(nome, descricao, valor, data, nomePagador, cpfCnpjPagador, nomeRecebedor, cpfCnpjRecebedor, formaPagamento, numeroRecibo);
   });
 }
 
-function tentarMetodoAlternativo(nome, descricao, valor, data) {
+function tentarMetodoAlternativo(nome, descricao, valor, data, nomePagador, cpfCnpjPagador, nomeRecebedor, cpfCnpjRecebedor, formaPagamento, numeroRecibo) {
   console.log("=== DEBUG: Método alternativo ===");
   
   // Criar um formulário HTML e enviar
@@ -71,7 +85,13 @@ function tentarMetodoAlternativo(nome, descricao, valor, data) {
     { name: 'nome', value: nome },
     { name: 'descricao', value: descricao },
     { name: 'valor', value: valor },
-    { name: 'data', value: data }
+    { name: 'data', value: data },
+    { name: 'nomePagador', value: nomePagador },
+    { name: 'cpfCnpjPagador', value: cpfCnpjPagador },
+    { name: 'nomeRecebedor', value: nomeRecebedor },
+    { name: 'cpfCnpjRecebedor', value: cpfCnpjRecebedor },
+    { name: 'formaPagamento', value: formaPagamento },
+    { name: 'numeroRecibo', value: numeroRecibo }
   ];
   
   campos.forEach(campo => {
@@ -88,10 +108,10 @@ function tentarMetodoAlternativo(nome, descricao, valor, data) {
   
   // Considerar sucesso e gerar recibo
   alert("Recibo registrado com sucesso na base de dados!");
-  gerarRecibo(nome, descricao, valor, data);
+  gerarRecibo(nome, descricao, valor, data, nomePagador, cpfCnpjPagador, nomeRecebedor, cpfCnpjRecebedor, formaPagamento, numeroRecibo);
 }
 
-function gerarRecibo(nome, descricao, valor, data) {
+function gerarRecibo(nome, descricao, valor, data, nomePagador, cpfCnpjPagador, nomeRecebedor, cpfCnpjRecebedor, formaPagamento, numeroRecibo) {
   const reciboDiv = document.getElementById("recibo");
   
   // Formatar a data corretamente
@@ -115,11 +135,24 @@ function gerarRecibo(nome, descricao, valor, data) {
     dataFormatada = "Data não informada";
   }
   
+  // Preparar informações adicionais
+  const infoAdicionais = [];
+  if (nomePagador) infoAdicionais.push(`<strong>Pagador:</strong> ${nomePagador}`);
+  if (cpfCnpjPagador) infoAdicionais.push(`<strong>CPF/CNPJ Pagador:</strong> ${cpfCnpjPagador}`);
+  if (nomeRecebedor) infoAdicionais.push(`<strong>Recebedor:</strong> ${nomeRecebedor}`);
+  if (cpfCnpjRecebedor) infoAdicionais.push(`<strong>CPF/CNPJ Recebedor:</strong> ${cpfCnpjRecebedor}`);
+  if (formaPagamento) infoAdicionais.push(`<strong>Forma de Pagamento:</strong> ${formaPagamento}`);
+  if (numeroRecibo) infoAdicionais.push(`<strong>Número do Recibo:</strong> ${numeroRecibo}`);
+  
+  const infoAdicionaisHTML = infoAdicionais.length > 0 ? 
+    `<div class="info-adicionais">${infoAdicionais.map(info => `<p>${info}</p>`).join('')}</div>` : '';
+  
   reciboDiv.innerHTML = `
     <h2>Recibo de Pagamento</h2>
     <p>Recebi de <strong>${nome}</strong> o valor de <strong>R$ ${valor}</strong></p>
     <p><strong>${descricao}</strong></p>
     <p>Data: ${dataFormatada}</p>
+    ${infoAdicionaisHTML}
     <br>
     <p>Declaro, para os devidos fins, que recebi o valor acima descrito, dando plena e geral quitação.</p>
     <br><br>
@@ -144,6 +177,14 @@ function gerarPDF() {
   const descricao = reciboDiv.querySelectorAll('p')[1].textContent;
   const data = reciboDiv.querySelectorAll('p')[2].textContent.replace('Data: ', '');
   
+  // Extrair informações adicionais se existirem
+  const infoAdicionais = reciboDiv.querySelector('.info-adicionais');
+  let infoAdicionaisTexto = '';
+  if (infoAdicionais) {
+    const infoParagrafos = infoAdicionais.querySelectorAll('p');
+    infoAdicionaisTexto = Array.from(infoParagrafos).map(p => p.textContent).join('\n');
+  }
+  
   // Criar PDF usando jsPDF
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
@@ -154,14 +195,32 @@ function gerarPDF() {
   doc.text("Recibo de Pagamento", 105, 30, { align: "center" });
   
   doc.setFontSize(12);
-  doc.text(`Recebi de ${nome} o valor de R$ ${valor}`, 20, 50);
-  doc.text(descricao, 20, 60);
-  doc.text(`Data: ${data}`, 20, 70);
+  let yPos = 50;
+  doc.text(`Recebi de ${nome} o valor de R$ ${valor}`, 20, yPos);
+  yPos += 10;
+  doc.text(descricao, 20, yPos);
+  yPos += 10;
+  doc.text(`Data: ${data}`, 20, yPos);
   
-  doc.text("Declaro, para os devidos fins, que recebi o valor acima descrito, dando plena e geral quitação.", 20, 90);
+  // Adicionar informações adicionais se existirem
+  if (infoAdicionaisTexto) {
+    yPos += 15;
+    const linhas = infoAdicionaisTexto.split('\n');
+    linhas.forEach(linha => {
+      if (linha.trim()) {
+        doc.text(linha, 20, yPos);
+        yPos += 8;
+      }
+    });
+  }
   
-  doc.text("Fernando G R Oliveira", 20, 130);
-  doc.text("CREF 018159", 20, 140);
+  yPos += 10;
+  doc.text("Declaro, para os devidos fins, que recebi o valor acima descrito, dando plena e geral quitação.", 20, yPos);
+  
+  yPos += 30;
+  doc.text("Fernando G R Oliveira", 20, yPos);
+  yPos += 10;
+  doc.text("CREF 018159", 20, yPos);
   
   // Salvar o PDF
   const nomeArquivo = `recibo_${nome.replace(/\s+/g, '_')}_${data.replace(/\//g, '-')}.pdf`;

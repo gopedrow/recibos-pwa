@@ -28,6 +28,27 @@
         <input type="number" id="valor" placeholder="Valor (R$)" step="0.01" required>
         <input type="date" id="data" required>
       </div>
+      
+      <!-- Novos campos opcionais -->
+      <div class="secao-campos-opcionais">
+        <h3>Informações Adicionais (Opcionais)</h3>
+        
+        <div class="linha-campos">
+          <input type="text" id="nomePagador" placeholder="Nome completo do pagador">
+          <input type="text" id="cpfCnpjPagador" placeholder="CPF/CNPJ do pagador">
+        </div>
+        
+        <div class="linha-campos">
+          <input type="text" id="nomeRecebedor" placeholder="Nome completo do recebedor">
+          <input type="text" id="cpfCnpjRecebedor" placeholder="CPF/CNPJ do recebedor">
+        </div>
+        
+        <div class="linha-campos">
+          <input type="text" id="formaPagamento" placeholder="Forma de pagamento">
+          <input type="text" id="numeroRecibo" placeholder="Número do recibo">
+        </div>
+      </div>
+      
       <button type="submit">Gerar Recibo</button>
     </form>
     <div id="recibo" class="recibo" style="display: none;"></div>
