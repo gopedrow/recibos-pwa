@@ -6,9 +6,7 @@ document.getElementById("reciboForm").addEventListener("submit", function(e) {
   const valor = parseFloat(document.getElementById("valor").value).toFixed(2);
   const data = document.getElementById("data").value;
   
-  // Novos campos opcionais
-  const nomeRecebedor = document.getElementById("nomeRecebedor").value || '';
-  const cpfCnpjRecebedor = document.getElementById("cpfCnpjRecebedor").value || '';
+  // Campo de forma de pagamento
   const formaPagamento = document.getElementById("formaPagamento").value || '';
   
   // Gerar número do recibo automaticamente
@@ -19,8 +17,6 @@ document.getElementById("reciboForm").addEventListener("submit", function(e) {
   console.log("Descrição:", descricao);
   console.log("Valor:", valor);
   console.log("Data:", data);
-  console.log("Nome Recebedor:", nomeRecebedor);
-  console.log("CPF/CNPJ Recebedor:", cpfCnpjRecebedor);
   console.log("Forma Pagamento:", formaPagamento);
   console.log("Número Recibo:", numeroRecibo);
 
@@ -31,14 +27,14 @@ document.getElementById("reciboForm").addEventListener("submit", function(e) {
   }
 
   // Testar com URL simples primeiro
-  testarSalvamento(nome, descricao, valor, data, nomeRecebedor, cpfCnpjRecebedor, formaPagamento, numeroRecibo);
+  testarSalvamento(nome, descricao, valor, data, formaPagamento, numeroRecibo);
 });
 
-function testarSalvamento(nome, descricao, valor, data, nomeRecebedor, cpfCnpjRecebedor, formaPagamento, numeroRecibo) {
+function testarSalvamento(nome, descricao, valor, data, formaPagamento, numeroRecibo) {
   console.log("=== DEBUG: Testando salvamento ===");
   
   // Método 1: Tentar com URL simples
-  const url = `https://script.google.com/macros/s/AKfycbz6nYJc9EbVOc72Hnehx_Zv3TFkLKgmFVeMcqTBRIfnHHaeDn7GwzTrX5rpDl-N_AEl/exec?tipo=recibo&nome=${encodeURIComponent(nome)}&descricao=${encodeURIComponent(descricao)}&valor=${encodeURIComponent(valor)}&data=${encodeURIComponent(data)}&nomeRecebedor=${encodeURIComponent(nomeRecebedor)}&cpfCnpjRecebedor=${encodeURIComponent(cpfCnpjRecebedor)}&formaPagamento=${encodeURIComponent(formaPagamento)}&numeroRecibo=${encodeURIComponent(numeroRecibo)}`;
+  const url = `https://script.google.com/macros/s/AKfycbz6nYJc9EbVOc72Hnehx_Zv3TFkLKgmFVeMcqTBRIfnHHaeDn7GwzTrX5rpDl-N_AEl/exec?tipo=recibo&nome=${encodeURIComponent(nome)}&descricao=${encodeURIComponent(descricao)}&valor=${encodeURIComponent(valor)}&data=${encodeURIComponent(data)}&formaPagamento=${encodeURIComponent(formaPagamento)}&numeroRecibo=${encodeURIComponent(numeroRecibo)}`;
   
   console.log("URL de teste:", url);
 
@@ -57,7 +53,7 @@ function testarSalvamento(nome, descricao, valor, data, nomeRecebedor, cpfCnpjRe
     
     // Se chegou até aqui, consideramos sucesso
     alert("Recibo registrado com sucesso na base de dados!");
-    gerarRecibo(nome, descricao, valor, data, nomeRecebedor, cpfCnpjRecebedor, formaPagamento, numeroRecibo);
+    gerarRecibo(nome, descricao, valor, data, formaPagamento, numeroRecibo);
   })
   .catch(err => {
     console.error("=== DEBUG: Erro no teste ===");
@@ -65,11 +61,11 @@ function testarSalvamento(nome, descricao, valor, data, nomeRecebedor, cpfCnpjRe
     
     // Se falhar, tentar método alternativo
     console.log("Tentando método alternativo...");
-    tentarMetodoAlternativo(nome, descricao, valor, data, nomeRecebedor, cpfCnpjRecebedor, formaPagamento, numeroRecibo);
+    tentarMetodoAlternativo(nome, descricao, valor, data, formaPagamento, numeroRecibo);
   });
 }
 
-function tentarMetodoAlternativo(nome, descricao, valor, data, nomeRecebedor, cpfCnpjRecebedor, formaPagamento, numeroRecibo) {
+function tentarMetodoAlternativo(nome, descricao, valor, data, formaPagamento, numeroRecibo) {
   console.log("=== DEBUG: Método alternativo ===");
   
   // Criar um formulário HTML e enviar
@@ -84,8 +80,6 @@ function tentarMetodoAlternativo(nome, descricao, valor, data, nomeRecebedor, cp
     { name: 'descricao', value: descricao },
     { name: 'valor', value: valor },
     { name: 'data', value: data },
-    { name: 'nomeRecebedor', value: nomeRecebedor },
-    { name: 'cpfCnpjRecebedor', value: cpfCnpjRecebedor },
     { name: 'formaPagamento', value: formaPagamento },
     { name: 'numeroRecibo', value: numeroRecibo }
   ];
@@ -104,10 +98,10 @@ function tentarMetodoAlternativo(nome, descricao, valor, data, nomeRecebedor, cp
   
   // Considerar sucesso e gerar recibo
   alert("Recibo registrado com sucesso na base de dados!");
-  gerarRecibo(nome, descricao, valor, data, nomeRecebedor, cpfCnpjRecebedor, formaPagamento, numeroRecibo);
+  gerarRecibo(nome, descricao, valor, data, formaPagamento, numeroRecibo);
 }
 
-function gerarRecibo(nome, descricao, valor, data, nomeRecebedor, cpfCnpjRecebedor, formaPagamento, numeroRecibo) {
+function gerarRecibo(nome, descricao, valor, data, formaPagamento, numeroRecibo) {
   const reciboDiv = document.getElementById("recibo");
   
   // Formatar a data corretamente
@@ -133,8 +127,6 @@ function gerarRecibo(nome, descricao, valor, data, nomeRecebedor, cpfCnpjRecebed
   
   // Preparar informações adicionais
   const infoAdicionais = [];
-  if (nomeRecebedor) infoAdicionais.push(`<strong>Recebedor:</strong> ${nomeRecebedor}`);
-  if (cpfCnpjRecebedor) infoAdicionais.push(`<strong>CPF/CNPJ Recebedor:</strong> ${cpfCnpjRecebedor}`);
   if (formaPagamento) infoAdicionais.push(`<strong>Forma de Pagamento:</strong> ${formaPagamento}`);
   if (numeroRecibo) infoAdicionais.push(`<strong>Número do Recibo:</strong> ${numeroRecibo}`);
   

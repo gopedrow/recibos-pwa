@@ -177,34 +177,7 @@ td:nth-child(5) {
   margin-bottom: 0;
 }
 
-/* Seção de campos opcionais */
-.secao-campos-opcionais {
-  background: #f8f8f8;
-  border-radius: 16px;
-  padding: 16px;
-  margin: 8px 0;
-  border: 1px solid #e0e0e0;
-}
 
-.secao-campos-opcionais h3 {
-  margin: 0 0 12px 0;
-  font-size: 0.9rem;
-  color: #666;
-  font-weight: 600;
-  text-align: center;
-}
-
-.secao-campos-opcionais .linha-campos input {
-  flex: 1 1 0;
-  margin-bottom: 0;
-  background: #fff;
-  border: 1px solid #e0e0e0;
-}
-
-.secao-campos-opcionais .linha-campos input:focus {
-  border-color: #888;
-  box-shadow: 0 2px 8px rgba(100,100,100,0.10);
-}
 
 /* Botões CPF/CNPJ */
 
