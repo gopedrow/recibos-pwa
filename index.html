@@ -22,30 +22,51 @@
   <div class="container">
     <h1 class="titulo-formal">Emissão de Recibo de Pagamento</h1>
     <form id="reciboForm">
-      <!-- O campo select de clientes será inserido via JS -->
+      <!-- Campo select de clientes movido para o início -->
+      <div id="clienteSelectContainer"></div>
+      
       <input type="text" id="descricao" placeholder="Descrição do serviço" required>
       <div class="linha-campos">
         <input type="number" id="valor" placeholder="Valor (R$)" step="0.01" required>
         <input type="date" id="data" required>
       </div>
       
-      <!-- Novos campos opcionais -->
+      <!-- Campos opcionais reorganizados -->
       <div class="secao-campos-opcionais">
         <h3>Informações Adicionais (Opcionais)</h3>
         
+        <!-- Botões CPF/CNPJ lado a lado -->
+        <div class="botoes-tipo-documento">
+          <button type="button" class="btn-tipo-doc" data-tipo="cpf">CPF</button>
+          <button type="button" class="btn-tipo-doc" data-tipo="cnpj">CNPJ</button>
+        </div>
+        
+        <!-- Campo para CPF/CNPJ do pagador -->
         <div class="linha-campos">
-          <input type="text" id="nomePagador" placeholder="Nome completo do pagador">
           <input type="text" id="cpfCnpjPagador" placeholder="CPF/CNPJ do pagador">
         </div>
         
+        <!-- Campo para nome do recebedor -->
         <div class="linha-campos">
           <input type="text" id="nomeRecebedor" placeholder="Nome completo do recebedor">
           <input type="text" id="cpfCnpjRecebedor" placeholder="CPF/CNPJ do recebedor">
         </div>
         
+        <!-- Menu suspenso para forma de pagamento -->
         <div class="linha-campos">
-          <input type="text" id="formaPagamento" placeholder="Forma de pagamento">
-          <input type="text" id="numeroRecibo" placeholder="Número do recibo">
+          <select id="formaPagamento" class="select-forma-pagamento">
+            <option value="">Selecione a forma de pagamento</option>
+            <option value="PIX">PIX</option>
+            <option value="Transferência">Transferência</option>
+            <option value="Depósito">Depósito</option>
+            <option value="Cheque">Cheque</option>
+            <option value="Dinheiro">Dinheiro</option>
+            <option value="Cartão de Crédito">Cartão de Crédito</option>
+            <option value="Cartão de Débito">Cartão de Débito</option>
+            <option value="Boleto">Boleto</option>
+            <option value="Dancinha de TikTok">Dancinha de TikTok</option>
+            <option value="Outros">Outros</option>
+          </select>
         </div>
       </div>
       

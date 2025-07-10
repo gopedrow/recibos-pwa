@@ -6,20 +6,20 @@ document.getElementById("reciboForm").addEventListener("submit", function(e) {
   const valor = parseFloat(document.getElementById("valor").value).toFixed(2);
   const data = document.getElementById("data").value;
   
-  // Novos campos opcionais
-  const nomePagador = document.getElementById("nomePagador").value || '';
+  // Novos campos opcionais (removido nomePagador e numeroRecibo)
   const cpfCnpjPagador = document.getElementById("cpfCnpjPagador").value || '';
   const nomeRecebedor = document.getElementById("nomeRecebedor").value || '';
   const cpfCnpjRecebedor = document.getElementById("cpfCnpjRecebedor").value || '';
   const formaPagamento = document.getElementById("formaPagamento").value || '';
-  const numeroRecibo = document.getElementById("numeroRecibo").value || '';
+  
+  // Gerar número do recibo automaticamente
+  const numeroRecibo = gerarNumeroRecibo();
 
   console.log("=== DEBUG: Dados do formulário ===");
   console.log("Nome:", nome);
   console.log("Descrição:", descricao);
   console.log("Valor:", valor);
   console.log("Data:", data);
-  console.log("Nome Pagador:", nomePagador);
   console.log("CPF/CNPJ Pagador:", cpfCnpjPagador);
   console.log("Nome Recebedor:", nomeRecebedor);
   console.log("CPF/CNPJ Recebedor:", cpfCnpjRecebedor);
@@ -33,7 +33,7 @@ document.getElementById("reciboForm").addEventListener("submit", function(e) {
   }
 
   // Testar com URL simples primeiro
-  testarSalvamento(nome, descricao, valor, data, nomePagador, cpfCnpjPagador, nomeRecebedor, cpfCnpjRecebedor, formaPagamento, numeroRecibo);
+  testarSalvamento(nome, descricao, valor, data, '', cpfCnpjPagador, nomeRecebedor, cpfCnpjRecebedor, formaPagamento, numeroRecibo);
 });
 
 function testarSalvamento(nome, descricao, valor, data, nomePagador, cpfCnpjPagador, nomeRecebedor, cpfCnpjRecebedor, formaPagamento, numeroRecibo) {
@@ -135,9 +135,8 @@ function gerarRecibo(nome, descricao, valor, data, nomePagador, cpfCnpjPagador, 
     dataFormatada = "Data não informada";
   }
   
-  // Preparar informações adicionais
+  // Preparar informações adicionais (removido nomePagador)
   const infoAdicionais = [];
-  if (nomePagador) infoAdicionais.push(`<strong>Pagador:</strong> ${nomePagador}`);
   if (cpfCnpjPagador) infoAdicionais.push(`<strong>CPF/CNPJ Pagador:</strong> ${cpfCnpjPagador}`);
   if (nomeRecebedor) infoAdicionais.push(`<strong>Recebedor:</strong> ${nomeRecebedor}`);
   if (cpfCnpjRecebedor) infoAdicionais.push(`<strong>CPF/CNPJ Recebedor:</strong> ${cpfCnpjRecebedor}`);
@@ -230,14 +229,54 @@ function gerarPDF() {
   alert(`PDF gerado com sucesso: ${nomeArquivo}`);
 }
 
+// Criar e configurar o select de clientes
 const clienteSelect = document.createElement('select');
 clienteSelect.id = 'clienteSelect';
 clienteSelect.required = true;
 clienteSelect.innerHTML = '<option value="">Selecione um cliente</option>';
 
-const reciboForm = document.getElementById('reciboForm');
-const botaoGerar = reciboForm.querySelector('button[type="submit"]');
-reciboForm.insertBefore(clienteSelect, botaoGerar);
+// Inserir o select de clientes no container específico
+const clienteSelectContainer = document.getElementById('clienteSelectContainer');
+clienteSelectContainer.appendChild(clienteSelect);
+
+// Função para gerar número do recibo automaticamente
+function gerarNumeroRecibo() {
+  const data = new Date();
+  const ano = data.getFullYear();
+  const mes = String(data.getMonth() + 1).padStart(2, '0');
+  const dia = String(data.getDate()).padStart(2, '0');
+  const hora = String(data.getHours()).padStart(2, '0');
+  const minuto = String(data.getMinutes()).padStart(2, '0');
+  const segundo = String(data.getSeconds()).padStart(2, '0');
+  
+  return `REC${ano}${mes}${dia}${hora}${minuto}${segundo}`;
+}
+
+// Função para gerenciar os botões CPF/CNPJ
+function inicializarBotoesTipoDocumento() {
+  const botoes = document.querySelectorAll('.btn-tipo-doc');
+  const campoCpfCnpj = document.getElementById('cpfCnpjPagador');
+  
+  botoes.forEach(botao => {
+    botao.addEventListener('click', function() {
+      // Remover classe ativo de todos os botões
+      botoes.forEach(b => b.classList.remove('ativo'));
+      
+      // Adicionar classe ativo ao botão clicado
+      this.classList.add('ativo');
+      
+      // Atualizar placeholder do campo
+      const tipo = this.getAttribute('data-tipo');
+      if (tipo === 'cpf') {
+        campoCpfCnpj.placeholder = 'CPF do pagador (000.000.000-00)';
+        campoCpfCnpj.maxLength = 14;
+      } else if (tipo === 'cnpj') {
+        campoCpfCnpj.placeholder = 'CNPJ do pagador (00.000.000/0000-00)';
+        campoCpfCnpj.maxLength = 18;
+      }
+    });
+  });
+}
 
 function carregarClientesParaSelect() {
   fetch('https://script.google.com/macros/s/AKfycbz6nYJc9EbVOc72Hnehx_Zv3TFkLKgmFVeMcqTBRIfnHHaeDn7GwzTrX5rpDl-N_AEl/exec?tipo=cliente')
@@ -248,5 +287,9 @@ function carregarClientesParaSelect() {
     });
 }
 
-carregarClientesParaSelect();
+// Inicializar quando o DOM estiver carregado
+document.addEventListener('DOMContentLoaded', function() {
+  carregarClientesParaSelect();
+  inicializarBotoesTipoDocumento();
+});
   
