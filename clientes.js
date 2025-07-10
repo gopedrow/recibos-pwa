@@ -6,17 +6,19 @@ document.getElementById('clienteForm').addEventListener('submit', function(e) {
   const email = document.getElementById('email').value;
   const telefone = document.getElementById('telefone').value;
   const cpfCnpj = document.getElementById('cpfCnpj').value || '';
+  const diaPagamento = document.getElementById('diaPagamento').value || '';
   
   // Salvar cliente na base de dados
-  salvarClienteNaBase(nome, email, telefone, cpfCnpj);
+  salvarClienteNaBase(nome, email, telefone, cpfCnpj, diaPagamento);
 });
 
-function salvarClienteNaBase(nome, email, telefone, cpfCnpj) {
+function salvarClienteNaBase(nome, email, telefone, cpfCnpj, diaPagamento) {
   console.log("=== DEBUG: Salvando cliente na base de dados ===");
   console.log("Nome:", nome);
   console.log("Email:", email);
   console.log("Telefone:", telefone);
   console.log("CPF/CNPJ:", cpfCnpj);
+  console.log("Dia do Pagamento:", diaPagamento);
   
   // Criar FormData para enviar via POST
   const formData = new FormData();
@@ -25,6 +27,7 @@ function salvarClienteNaBase(nome, email, telefone, cpfCnpj) {
   formData.append('email', email);
   formData.append('telefone', telefone);
   formData.append('cpfCnpj', cpfCnpj);
+  formData.append('diaPagamento', diaPagamento);
 
   fetch('https://script.google.com/macros/s/AKfycbz9GmQUeSkbUNjNLUVyDQpPZMDFD7T5IDMiFxN5PpV-fhR59SlWI9aUtpp7oXyd5ykY/exec', {
     method: 'POST',
@@ -68,7 +71,7 @@ function carregarClientes() {
         lista.innerHTML = '<p>Nenhum cliente cadastrado.</p>';
         return;
       }
-      lista.innerHTML = '<ul>' + clientes.map(c => `<li><strong>${c.nome}</strong> - ${c.email || ''} ${c.telefone || ''} ${c.cpfCnpj ? `(${c.cpfCnpj})` : ''}</li>`).join('') + '</ul>';
+      lista.innerHTML = '<ul>' + clientes.map(c => `<li><strong>${c.nome}</strong> - ${c.email || ''} ${c.telefone || ''} ${c.cpfCnpj ? `(${c.cpfCnpj})` : ''} ${c.diaPagamento ? `[Dia ${c.diaPagamento}]` : ''}</li>`).join('') + '</ul>';
     });
 }
 

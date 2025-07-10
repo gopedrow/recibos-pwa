@@ -226,6 +226,22 @@ clienteSelect.innerHTML = '<option value="">Selecione um cliente</option>';
 const clienteSelectContainer = document.getElementById('clienteSelectContainer');
 clienteSelectContainer.appendChild(clienteSelect);
 
+// Array para armazenar os dados dos clientes
+let clientesData = [];
+
+// Função para mostrar legenda do dia de pagamento
+function mostrarLegendaDiaPagamento(clienteNome) {
+  const legendaDiv = document.getElementById('legendaDiaPagamento');
+  const cliente = clientesData.find(c => c.nome === clienteNome);
+  
+  if (cliente && cliente.diaPagamento) {
+    legendaDiv.textContent = `Esse aluno realiza o pagamento no dia ${cliente.diaPagamento}`;
+    legendaDiv.style.display = 'block';
+  } else {
+    legendaDiv.style.display = 'none';
+  }
+}
+
 // Função para gerar número do recibo automaticamente
 function gerarNumeroRecibo() {
   const data = new Date();
@@ -245,6 +261,9 @@ function carregarClientesParaSelect() {
   fetch('https://script.google.com/macros/s/AKfycbz9GmQUeSkbUNjNLUVyDQpPZMDFD7T5IDMiFxN5PpV-fhR59SlWI9aUtpp7oXyd5ykY/exec?tipo=cliente')
     .then(res => res.json())
     .then(clientes => {
+      // Armazenar dados dos clientes
+      clientesData = clientes;
+      
       clienteSelect.innerHTML = '<option value="">Selecione um cliente</option>' +
         clientes.map(c => `<option value="${c.nome}">${c.nome} - ${c.email || ''}</option>`).join('');
     });
@@ -253,5 +272,10 @@ function carregarClientesParaSelect() {
 // Inicializar quando o DOM estiver carregado
 document.addEventListener('DOMContentLoaded', function() {
   carregarClientesParaSelect();
+  
+  // Adicionar event listener para o select de clientes
+  clienteSelect.addEventListener('change', function() {
+    mostrarLegendaDiaPagamento(this.value);
+  });
 });
   
