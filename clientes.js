@@ -29,7 +29,7 @@ function salvarClienteNaBase(nome, email, telefone, cpfCnpj, diaPagamento) {
   formData.append('cpfCnpj', cpfCnpj);
   formData.append('diaPagamento', diaPagamento);
 
-  fetch('https://script.google.com/macros/s/AKfycbz9GmQUeSkbUNjNLUVyDQpPZMDFD7T5IDMiFxN5PpV-fhR59SlWI9aUtpp7oXyd5ykY/exec', {
+  fetch('https://script.google.com/macros/s/AKfycbwxp6w1PvAhVoHFTcBrjjbmAVEQEAzdkLA38TtyYgC4sqYOcJ532jlF6NJVaIRh2vkg/exec', {
     method: 'POST',
     body: formData
   })
@@ -63,7 +63,7 @@ function salvarClienteNaBase(nome, email, telefone, cpfCnpj, diaPagamento) {
 }
 
 function carregarClientes() {
-  fetch('https://script.google.com/macros/s/AKfycbz9GmQUeSkbUNjNLUVyDQpPZMDFD7T5IDMiFxN5PpV-fhR59SlWI9aUtpp7oXyd5ykY/exec?tipo=cliente')
+  fetch('https://script.google.com/macros/s/AKfycbwxp6w1PvAhVoHFTcBrjjbmAVEQEAzdkLA38TtyYgC4sqYOcJ532jlF6NJVaIRh2vkg/exec?tipo=cliente')
     .then(res => res.json())
     .then(clientes => {
       const lista = document.getElementById('clientesLista');

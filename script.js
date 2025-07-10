@@ -34,7 +34,7 @@ function testarSalvamento(nome, descricao, valor, data, formaPagamento, numeroRe
   console.log("=== DEBUG: Testando salvamento ===");
   
   // Método 1: Tentar com URL simples
-  const url = `https://script.google.com/macros/s/AKfycbz9GmQUeSkbUNjNLUVyDQpPZMDFD7T5IDMiFxN5PpV-fhR59SlWI9aUtpp7oXyd5ykY/exec?tipo=recibo&nome=${encodeURIComponent(nome)}&descricao=${encodeURIComponent(descricao)}&valor=${encodeURIComponent(valor)}&data=${encodeURIComponent(data)}&formaPagamento=${encodeURIComponent(formaPagamento)}&numeroRecibo=${encodeURIComponent(numeroRecibo)}`;
+  const url = `https://script.google.com/macros/s/AKfycbwxp6w1PvAhVoHFTcBrjjbmAVEQEAzdkLA38TtyYgC4sqYOcJ532jlF6NJVaIRh2vkg/exec?tipo=recibo&nome=${encodeURIComponent(nome)}&descricao=${encodeURIComponent(descricao)}&valor=${encodeURIComponent(valor)}&data=${encodeURIComponent(data)}&formaPagamento=${encodeURIComponent(formaPagamento)}&numeroRecibo=${encodeURIComponent(numeroRecibo)}`;
   
   console.log("URL de teste:", url);
 
@@ -71,7 +71,7 @@ function tentarMetodoAlternativo(nome, descricao, valor, data, formaPagamento, n
   // Criar um formulário HTML e enviar
   const form = document.createElement('form');
   form.method = 'POST';
-  form.action = 'https://script.google.com/macros/s/AKfycbz9GmQUeSkbUNjNLUVyDQpPZMDFD7T5IDMiFxN5PpV-fhR59SlWI9aUtpp7oXyd5ykY/exec';
+  form.action = 'https://script.google.com/macros/s/AKfycbwxp6w1PvAhVoHFTcBrjjbmAVEQEAzdkLA38TtyYgC4sqYOcJ532jlF6NJVaIRh2vkg/exec';
   form.target = '_blank';
   
   const campos = [
@@ -267,7 +267,7 @@ function gerarNumeroRecibo() {
 
 
 function carregarClientesParaSelect() {
-  fetch('https://script.google.com/macros/s/AKfycbz9GmQUeSkbUNjNLUVyDQpPZMDFD7T5IDMiFxN5PpV-fhR59SlWI9aUtpp7oXyd5ykY/exec?tipo=cliente')
+  fetch('https://script.google.com/macros/s/AKfycbwxp6w1PvAhVoHFTcBrjjbmAVEQEAzdkLA38TtyYgC4sqYOcJ532jlF6NJVaIRh2vkg/exec?tipo=cliente')
     .then(res => res.json())
     .then(clientes => {
       console.log("=== DEBUG: Clientes carregados ===");
