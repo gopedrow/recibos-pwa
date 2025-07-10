@@ -106,8 +106,6 @@ function formatarData(data) {
 function formatarInformacoesAdicionais(linha) {
   const info = [];
   
-  if (linha.nomePagador) info.push(`Pagador: ${linha.nomePagador}`);
-  if (linha.cpfCnpjPagador) info.push(`CPF/CNPJ Pagador: ${linha.cpfCnpjPagador}`);
   if (linha.nomeRecebedor) info.push(`Recebedor: ${linha.nomeRecebedor}`);
   if (linha.cpfCnpjRecebedor) info.push(`CPF/CNPJ Recebedor: ${linha.cpfCnpjRecebedor}`);
   if (linha.formaPagamento) info.push(`Forma: ${linha.formaPagamento}`);
