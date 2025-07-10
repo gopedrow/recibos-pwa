@@ -23,7 +23,7 @@ function salvarClienteNaBase(nome, email, telefone) {
   formData.append('email', email);
   formData.append('telefone', telefone);
 
-  fetch('https://script.google.com/macros/s/AKfycbxXdWDONd_EA6LSl3KNb0u6g7pI5vOsGUidmEzIwkHBX3WJbDLkYBqslqtNSbKsKNY/exec', {
+  fetch('https://script.google.com/macros/s/AKfycbz6nYJc9EbVOc72Hnehx_Zv3TFkLKgmFVeMcqTBRIfnHHaeDn7GwzTrX5rpDl-N_AEl/exec', {
     method: 'POST',
     body: formData
   })
@@ -57,7 +57,7 @@ function salvarClienteNaBase(nome, email, telefone) {
 }
 
 function carregarClientes() {
-  fetch('https://script.google.com/macros/s/AKfycbxXdWDONd_EA6LSl3KNb0u6g7pI5vOsGUidmEzIwkHBX3WJbDLkYBqslqtNSbKsKNY/exec?tipo=cliente')
+  fetch('https://script.google.com/macros/s/AKfycbz6nYJc9EbVOc72Hnehx_Zv3TFkLKgmFVeMcqTBRIfnHHaeDn7GwzTrX5rpDl-N_AEl/exec?tipo=cliente')
     .then(res => res.json())
     .then(clientes => {
       const lista = document.getElementById('clientesLista');

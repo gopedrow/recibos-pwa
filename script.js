@@ -40,7 +40,7 @@ function testarSalvamento(nome, descricao, valor, data, nomePagador, cpfCnpjPaga
   console.log("=== DEBUG: Testando salvamento ===");
   
   // Método 1: Tentar com URL simples
-  const url = `https://script.google.com/macros/s/AKfycbxXdWDONd_EA6LSl3KNb0u6g7pI5vOsGUidmEzIwkHBX3WJbDLkYBqslqtNSbKsKNY/exec?tipo=recibo&nome=${encodeURIComponent(nome)}&descricao=${encodeURIComponent(descricao)}&valor=${encodeURIComponent(valor)}&data=${encodeURIComponent(data)}&nomePagador=${encodeURIComponent(nomePagador)}&cpfCnpjPagador=${encodeURIComponent(cpfCnpjPagador)}&nomeRecebedor=${encodeURIComponent(nomeRecebedor)}&cpfCnpjRecebedor=${encodeURIComponent(cpfCnpjRecebedor)}&formaPagamento=${encodeURIComponent(formaPagamento)}&numeroRecibo=${encodeURIComponent(numeroRecibo)}`;
+  const url = `https://script.google.com/macros/s/AKfycbz6nYJc9EbVOc72Hnehx_Zv3TFkLKgmFVeMcqTBRIfnHHaeDn7GwzTrX5rpDl-N_AEl/exec?tipo=recibo&nome=${encodeURIComponent(nome)}&descricao=${encodeURIComponent(descricao)}&valor=${encodeURIComponent(valor)}&data=${encodeURIComponent(data)}&nomePagador=${encodeURIComponent(nomePagador)}&cpfCnpjPagador=${encodeURIComponent(cpfCnpjPagador)}&nomeRecebedor=${encodeURIComponent(nomeRecebedor)}&cpfCnpjRecebedor=${encodeURIComponent(cpfCnpjRecebedor)}&formaPagamento=${encodeURIComponent(formaPagamento)}&numeroRecibo=${encodeURIComponent(numeroRecibo)}`;
   
   console.log("URL de teste:", url);
 
@@ -77,7 +77,7 @@ function tentarMetodoAlternativo(nome, descricao, valor, data, nomePagador, cpfC
   // Criar um formulário HTML e enviar
   const form = document.createElement('form');
   form.method = 'POST';
-  form.action = 'https://script.google.com/macros/s/AKfycbxXdWDONd_EA6LSl3KNb0u6g7pI5vOsGUidmEzIwkHBX3WJbDLkYBqslqtNSbKsKNY/exec';
+  form.action = 'https://script.google.com/macros/s/AKfycbz6nYJc9EbVOc72Hnehx_Zv3TFkLKgmFVeMcqTBRIfnHHaeDn7GwzTrX5rpDl-N_AEl/exec';
   form.target = '_blank';
   
   const campos = [
@@ -240,7 +240,7 @@ const botaoGerar = reciboForm.querySelector('button[type="submit"]');
 reciboForm.insertBefore(clienteSelect, botaoGerar);
 
 function carregarClientesParaSelect() {
-  fetch('https://script.google.com/macros/s/AKfycbxXdWDONd_EA6LSl3KNb0u6g7pI5vOsGUidmEzIwkHBX3WJbDLkYBqslqtNSbKsKNY/exec?tipo=cliente')
+  fetch('https://script.google.com/macros/s/AKfycbz6nYJc9EbVOc72Hnehx_Zv3TFkLKgmFVeMcqTBRIfnHHaeDn7GwzTrX5rpDl-N_AEl/exec?tipo=cliente')
     .then(res => res.json())
     .then(clientes => {
       clienteSelect.innerHTML = '<option value="">Selecione um cliente</option>' +

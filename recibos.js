@@ -4,7 +4,7 @@ let todosRecibos = [];
 // Carregar recibos e clientes
 function carregarDados() {
   // Carregar recibos
-  fetch("https://script.google.com/macros/s/AKfycbxXdWDONd_EA6LSl3KNb0u6g7pI5vOsGUidmEzIwkHBX3WJbDLkYBqslqtNSbKsKNY/exec")
+  fetch("https://script.google.com/macros/s/AKfycbz6nYJc9EbVOc72Hnehx_Zv3TFkLKgmFVeMcqTBRIfnHHaeDn7GwzTrX5rpDl-N_AEl/exec")
     .then(res => res.json())
     .then(dados => {
       todosRecibos = dados;
@@ -17,7 +17,7 @@ function carregarDados() {
     });
 
   // Carregar clientes para o filtro
-  fetch('https://script.google.com/macros/s/AKfycbxXdWDONd_EA6LSl3KNb0u6g7pI5vOsGUidmEzIwkHBX3WJbDLkYBqslqtNSbKsKNY/exec?tipo=cliente')
+  fetch('https://script.google.com/macros/s/AKfycbz6nYJc9EbVOc72Hnehx_Zv3TFkLKgmFVeMcqTBRIfnHHaeDn7GwzTrX5rpDl-N_AEl/exec?tipo=cliente')
     .then(res => res.json())
     .then(clientes => {
       const filtroSelect = document.getElementById('filtroCliente');
