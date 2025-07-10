@@ -4,7 +4,7 @@ let todosRecibos = [];
 // Carregar recibos e clientes
 function carregarDados() {
   // Carregar recibos
-  fetch("https://script.google.com/macros/s/AKfycbwxp6w1PvAhVoHFTcBrjjbmAVEQEAzdkLA38TtyYgC4sqYOcJ532jlF6NJVaIRh2vkg/exec")
+  fetch("https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLiFmwxTx4DkPjvC8RW195MR2MC0NydF0-wScz4q6FAAIQzoTGO-X3a407irAUd3olSrfZCAkU794SjGvlQxglXVnThi2hSFv02s8IoNfYiXEy-8HXCUc1X6Ri2bKgQGiQWNPN3P0g7iukwSj5lgP3-r6fhmCSgz6Ph_fnbXMnfakx0nFvXhy_tLrPwqQrmMeqsWr0lQ84ZRZkbWA8Si8kmVSg1oo9ocdCoSNNHJxPWIRGgpiRVIpCHDM_Sw83-I4s6xAOEC6R6M2Mw4xJ9FYyVT5j1jHStGtmsG2CqKPpEU0NGAiLc&lib=MvRKIVPIBbOkrYkViJ3xm_x_1caAnuAfe")
     .then(res => res.json())
     .then(dados => {
       todosRecibos = dados;
@@ -17,7 +17,7 @@ function carregarDados() {
     });
 
   // Carregar clientes para o filtro
-  fetch('https://script.google.com/macros/s/AKfycbwxp6w1PvAhVoHFTcBrjjbmAVEQEAzdkLA38TtyYgC4sqYOcJ532jlF6NJVaIRh2vkg/exec?tipo=cliente')
+  fetch('https://script.googleusercontent.com/macros/echo?user_content_key=AehSKLiFmwxTx4DkPjvC8RW195MR2MC0NydF0-wScz4q6FAAIQzoTGO-X3a407irAUd3olSrfZCAkU794SjGvlQxglXVnThi2hSFv02s8IoNfYiXEy-8HXCUc1X6Ri2bKgQGiQWNPN3P0g7iukwSj5lgP3-r6fhmCSgz6Ph_fnbXMnfakx0nFvXhy_tLrPwqQrmMeqsWr0lQ84ZRZkbWA8Si8kmVSg1oo9ocdCoSNNHJxPWIRGgpiRVIpCHDM_Sw83-I4s6xAOEC6R6M2Mw4xJ9FYyVT5j1jHStGtmsG2CqKPpEU0NGAiLc&lib=MvRKIVPIBbOkrYkViJ3xm_x_1caAnuAfe&tipo=cliente')
     .then(res => res.json())
     .then(clientes => {
       const filtroSelect = document.getElementById('filtroCliente');
