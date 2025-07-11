@@ -25,6 +25,9 @@
       <!-- Campo select de clientes movido para o início -->
       <div id="clienteSelectContainer"></div>
       
+      <!-- Legenda do dia de pagamento - posicionada logo após o select -->
+      <p id="legendaDiaPagamento" class="legenda-dia-pagamento" style="display: none;"></p>
+      
       <input type="text" id="descricao" placeholder="Descrição do serviço" required>
       <div class="linha-campos">
         <input type="number" id="valor" placeholder="Valor (R$)" step="0.01" required>
@@ -48,9 +51,6 @@
       
       <button type="submit">Gerar Recibo</button>
     </form>
-    
-    <!-- Legenda do dia de pagamento - fora do formulário -->
-    <div id="legendaDiaPagamento" class="legenda-dia-pagamento" style="display: none;"></div>
     
     <div id="recibo" class="recibo" style="display: none;"></div>
     <div class="botoes-circulares">
