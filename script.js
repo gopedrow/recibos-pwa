@@ -171,42 +171,133 @@ function gerarPDF() {
     infoAdicionaisTexto = Array.from(infoParagrafos).map(p => p.textContent).join('\n');
   }
   
-  // Criar PDF usando jsPDF
+  // Criar PDF usando jsPDF com formatação preestabelecida
   const { jsPDF } = window.jspdf;
   const doc = new jsPDF();
   
-  // Configurar fonte e tamanhos
-  doc.setFont("helvetica");
-  doc.setFontSize(20);
-  doc.text("Recibo de Pagamento", 105, 30, { align: "center" });
+  // Configurações de página
+  const pageWidth = doc.internal.pageSize.width;
+  const pageHeight = doc.internal.pageSize.height;
+  const margin = 20;
+  const contentWidth = pageWidth - (2 * margin);
   
+  // Cores personalizadas
+  const primaryColor = [68, 68, 68]; // #444
+  const secondaryColor = [136, 136, 136]; // #888
+  
+  // ===== CABEÇALHO =====
+  // Logo/Emblema (círculo com iniciais)
+  doc.setFillColor(...primaryColor);
+  doc.circle(30, 25, 15, 'F');
+  doc.setTextColor(255, 255, 255);
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(14);
+  doc.text("FGO", 30, 30, { align: "center" });
+  
+  // Título principal
+  doc.setTextColor(...primaryColor);
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(24);
+  doc.text("RECIBO DE PAGAMENTO", pageWidth/2, 35, { align: "center" });
+  
+  // Linha decorativa
+  doc.setDrawColor(...primaryColor);
+  doc.setLineWidth(0.5);
+  doc.line(margin, 45, pageWidth - margin, 45);
+  
+  // ===== CONTEÚDO PRINCIPAL =====
+  let yPos = 65;
+  
+  // Informação principal do pagamento
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(14);
+  doc.setTextColor(...primaryColor);
+  doc.text(`Recebi de ${nome}`, margin, yPos);
+  yPos += 12;
+  
+  doc.setFont("helvetica", "normal");
   doc.setFontSize(12);
-  let yPos = 50;
-  doc.text(`Recebi de ${nome} o valor de R$ ${valor}`, 20, yPos);
-  yPos += 10;
-  doc.text(descricao, 20, yPos);
-  yPos += 10;
-  doc.text(`Data: ${data}`, 20, yPos);
+  doc.text(`o valor de R$ ${valor}`, margin, yPos);
+  yPos += 20;
   
-  // Adicionar informações adicionais se existirem
+  // Descrição do serviço
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(12);
+  doc.text("Referente a:", margin, yPos);
+  yPos += 8;
+  
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(11);
+  // Quebrar descrição em múltiplas linhas se necessário
+  const descricaoLines = doc.splitTextToSize(descricao, contentWidth - 10);
+  descricaoLines.forEach(line => {
+    doc.text(line, margin + 5, yPos);
+    yPos += 6;
+  });
+  yPos += 15;
+  
+  // Data
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(11);
+  doc.text(`Data: ${data}`, margin, yPos);
+  yPos += 20;
+  
+  // Informações adicionais
   if (infoAdicionaisTexto) {
-    yPos += 15;
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(11);
+    doc.text("Informações Adicionais:", margin, yPos);
+    yPos += 8;
+    
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(10);
+    doc.setTextColor(...secondaryColor);
     const linhas = infoAdicionaisTexto.split('\n');
     linhas.forEach(linha => {
       if (linha.trim()) {
-        doc.text(linha, 20, yPos);
-        yPos += 8;
+        doc.text(linha, margin + 5, yPos);
+        yPos += 6;
       }
     });
+    yPos += 10;
   }
   
-  yPos += 10;
-  doc.text("Declaro, para os devidos fins, que recebi o valor acima descrito, dando plena e geral quitação.", 20, yPos);
+  // ===== DECLARAÇÃO =====
+  doc.setTextColor(...primaryColor);
+  doc.setFont("helvetica", "italic");
+  doc.setFontSize(11);
+  const declaracao = "Declaro, para os devidos fins, que recebi o valor acima descrito, dando plena e geral quitação.";
+  const declaracaoLines = doc.splitTextToSize(declaracao, contentWidth - 10);
+  declaracaoLines.forEach(line => {
+    doc.text(line, margin, yPos);
+    yPos += 8;
+  });
   
-  yPos += 30;
-  doc.text("Fernando G R Oliveira", 20, yPos);
-  yPos += 10;
-  doc.text("CREF 018159", 20, yPos);
+  // ===== ASSINATURA =====
+  yPos += 25;
+  
+  // Linha para assinatura
+  doc.setDrawColor(...primaryColor);
+  doc.setLineWidth(0.3);
+  doc.line(margin, yPos, margin + 80, yPos);
+  
+  // Nome do profissional
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(12);
+  doc.text("Fernando G R Oliveira", margin, yPos + 8);
+  
+  // CREF
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(10);
+  doc.setTextColor(...secondaryColor);
+  doc.text("CREF 018159", margin, yPos + 15);
+  
+  // ===== RODAPÉ =====
+  const footerY = pageHeight - 15;
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(8);
+  doc.setTextColor(...secondaryColor);
+  doc.text("Documento gerado automaticamente pelo Sistema de Recibos", pageWidth/2, footerY, { align: "center" });
   
   // Salvar o PDF
   const nomeArquivo = `recibo_${nome.replace(/\s+/g, '_')}_${data.replace(/\//g, '-')}.pdf`;
